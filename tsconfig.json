@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    /* 기본 설정 */
+    "target": "ESNext",
+    "module": "CommonJS",
+    "lib": ["ESNext", "DOM"],
+    "baseUrl": ".",
+    
+    /* 엄격한 타입 체크 (미션의 핵심) */
+    "strict": true,                         // 모든 엄격 모드 활성화
+    "noImplicitAny": true,                  // 암시적 any 에러 발생
+    "strictNullChecks": true,               // null/undefined 체크 강화
+    "strictFunctionTypes": true,            // 함수의 파라미터 타입 체크 강화
+    
+    /* 모듈 해석 */
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,                   // 외부 라이브러리 체크 스킵 (충돌 방지)
+    "forceConsistentCasingInFileNames": true,
+
+    /* 경로 매핑: 'my-lodash'라는 이름으로 우리의 선언 파일을 찾도록 설정 */
+    "paths": {
+      "my-lodash": ["./lodash.d.ts"]
+    }
+  },
+  "include": ["src/**/*", "lodash.d.ts", "index.ts"]
+}
