@@ -1,18 +1,18 @@
 // index.ts
-import { groupBy, debounce, get, head } from 'my-lodash'; // 라이브러리처럼 호출
+import { groupBy, debounce, get, head, compact } from 'my-lodash'; // 라이브러리처럼 호출
 
 
 // groupBy 테스트 코드-----------------------------
-interface User {
-  name: string;
-  age: number;
-}
+// interface User {
+//   name: string;
+//   age: number;
+// }
 
-const users: User[] = [
-  { name: 'Alice', age: 20 },
-  { name: 'Bob', age: 25 },
-  { name: 'Charlie', age: 20 },
-];
+// const users: User[] = [
+//   { name: 'Alice', age: 20 },
+//   { name: 'Bob', age: 25 },
+//   { name: 'Charlie', age: 20 },
+// ];
 
 // console.log('--- 실행 결과 ---');
 // console.log(groupBy(users, 'age'));
@@ -81,6 +81,20 @@ const users: User[] = [
 // console.log('없는 경로:', unknown);
 
 // head 함수 테스트 코드-----------------------------
-const numbers: number[] = [];// 타입추론 때문에 오류가 생김 
-const firstNumber = head(numbers);
-console.log(firstNumber);
+// const numbers: number[] = [];// 타입추론 때문에 오류가 생김 
+// const firstNumber = head(numbers);
+// console.log(firstNumber);
+
+// compact 함수 테스트 코드-----------------------------
+const mixedList = [0, 1, 'apple', '', false, true, null, undefined, NaN];
+const cleanedList = compact(mixedList);
+console.log(cleanedList);
+
+const users = [
+  { id: 1, name: 'Alice' },
+  null,
+  { id: 2, name: 'Bob' },
+  undefined
+];
+const validUsers = compact(users);
+console.log(validUsers);
