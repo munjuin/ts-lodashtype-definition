@@ -1,5 +1,5 @@
 // index.ts
-import { groupBy, debounce, get, head, compact } from 'my-lodash'; // 라이브러리처럼 호출
+import { groupBy, debounce, get, head, compact, omit } from 'my-lodash'; // 라이브러리처럼 호출
 
 
 // groupBy 테스트 코드-----------------------------
@@ -86,15 +86,33 @@ import { groupBy, debounce, get, head, compact } from 'my-lodash'; // 라이브�
 // console.log(firstNumber);
 
 // compact 함수 테스트 코드-----------------------------
-const mixedList = [0, 1, 'apple', '', false, true, null, undefined, NaN];
-const cleanedList = compact(mixedList);
-console.log(cleanedList);
+// const mixedList = [0, 1, 'apple', '', false, true, null, undefined, NaN];
+// const cleanedList = compact(mixedList);
+// console.log(cleanedList);
 
-const users = [
-  { id: 1, name: 'Alice' },
-  null,
-  { id: 2, name: 'Bob' },
-  undefined
-];
-const validUsers = compact(users);
-console.log(validUsers);
+// const users = [
+//   { id: 1, name: 'Alice' },
+//   null,
+//   { id: 2, name: 'Bob' },
+//   undefined
+// ];
+// const validUsers = compact(users);
+// console.log(validUsers);
+
+// omit 함수 테스트 코드-----------------------------
+const user = {
+  id: 1,
+  name: 'Alice',
+  age: 25,
+  email: 'alice@example.com'
+};
+
+// 1. 정상 작동 테스트
+const userWithoutSensitiveInfo = omit(user, ['id', 'email']);
+
+console.log('--- omit 테스트 ---');
+console.log('원본 유저:', user);
+console.log('정제된 유저:', userWithoutSensitiveInfo); // { name: 'Alice', age: 25 }
+
+// 2. 타입 체크 포인트
+// userWithoutSensitiveInfo.id; // <- 이 코드의 주석을 풀었을 때 에러가 나야 성공입니다!
