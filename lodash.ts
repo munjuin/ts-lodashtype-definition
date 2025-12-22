@@ -72,3 +72,30 @@ export function debounce(func: (...args: any[]) => any, wait: number): any {
 
   return debounced;
 }
+/**
+ * [이슈 #4] get 함수를 위한 재귀적 경로 타입 설계
+ */
+
+// 1. 문자열 경로를 해석해서 타입을 찾아내는 마법의 타입 (재귀)
+type GetType<T, P extends string> = 
+  P extends `${infer Left}.${infer Right}` // 1단계: 'a.b.c'를 'a'와 'b.c'로 쪼갭니다.
+    ? Left extends keyof T                  // 2단계: 'a'가 객체 T의 키인지 확인합니다.
+      ? GetType<T[Left], Right>             // 3단계: 맞다면 'b.c'를 가지고 더 깊이 들어갑니다 (재귀).
+      : any                                 // 키가 없으면 any를 반환합니다.
+    : P extends keyof T                     // 쪼갤 게 없으면(마지막 단계), 해당 키가 있는지 확인합니다.
+      ? T[P]                                // 있으면 그 타입을 반환!
+      : any;                                // 없으면 any.
+
+// 2. get 함수 설계 (오버로딩 생략하고 하나로 합친 버전)
+export function get<T extends object, P extends string>(
+  obj: T,
+  path: P
+): GetType<T, P>;
+
+// 3. get 함수 구현 (알맹이)
+export function get(obj: any, path: string): any {
+  // 'a.b.c'를 ['a', 'b', 'c'] 배열로 바꾼 뒤 하나씩 타고 들어갑니다.
+  return path.split('.').reduce((acc, key) => {
+    return acc && acc[key] !== undefined ? acc[key] : undefined;
+  }, obj);
+}
