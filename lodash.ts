@@ -99,3 +99,8 @@ export function get(obj: any, path: string): any {
     return acc && acc[key] !== undefined ? acc[key] : undefined;
   }, obj);
 }
+
+// head 함수 설계 및 구현
+export function head<T>(array: T[]): T | undefined {
+  return array.length > 0 ? array[0] : undefined;
+}
