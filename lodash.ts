@@ -104,3 +104,10 @@ export function get(obj: any, path: string): any {
 export function head<T>(array: T[]): T | undefined {
   return array.length > 0 ? array[0] : undefined;
 }
+
+// compact 함수 설계 및 구현
+export function compact<T>(array: (T | null | undefined | false | 0 | '')[]): T[] {
+  return array.filter(
+    (item): item is T => Boolean(item)
+  )
+}
