@@ -1,5 +1,5 @@
 /**
- * [이슈 #2] groupBy
+ * groupBy 설계 및 구현
  */
 export function groupBy<T>(
   collection: T[],
@@ -23,7 +23,7 @@ export function groupBy(collection: any[], iteratee: any): any {
 }
 
 /**
- * [이슈 #3] debounce 설계 및 구현
+ * debounce 설계 및 구현
  * * 1. <F extends (...args: any[]) => any>: 
  * - F라는 변수에 "원본 함수의 모든 정보(인자 타입, 개수, 리턴 타입)"를 통째로 저장합니다.
  * * 2. 리턴 타입 F & { cancel(): void; flush(): void }:
@@ -73,7 +73,7 @@ export function debounce(func: (...args: any[]) => any, wait: number): any {
   return debounced;
 }
 /**
- * [이슈 #4] get 함수를 위한 재귀적 경로 타입 설계
+ * get 함수를 위한 재귀적 경로 타입 설계
  */
 
 // 1. 문자열 경로를 해석해서 타입을 찾아내는 마법의 타입 (재귀)
@@ -121,5 +121,24 @@ export function omit<T extends object, K extends keyof T>(
   for (const key of keys){
     delete result[key];
   }
+  return result;
+}
+
+// pick 함수 설계 및 구현
+export function pick<T extends object, K extends keyof T>(
+  obj: T,
+  keys: K[]
+): { [P in K]: T[P] } {
+  // 1. 결과를 담을 빈 객체 생성
+  // 타입 시스템을 만족시키기 위해 'as any'를 사용하거나 
+  // 'as { [P in K]: T[P] }'로 단언합니다.
+  const result = {} as { [P in K]: T[P] };
+
+  // 2. keys 배열을 순회하며 값 복사
+  keys.forEach((key) => {
+    // result의 타입이 엄격하므로 인덱스 접근을 위해 잠시 any 처리를 할 수 있습니다.
+    (result as any)[key] = obj[key];
+  });
+
   return result;
 }
