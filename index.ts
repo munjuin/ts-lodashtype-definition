@@ -1,5 +1,5 @@
 // index.ts
-import { groupBy, debounce, get, head, compact, omit } from 'my-lodash'; // 라이브러리처럼 호출
+import { groupBy, debounce, get, head, compact, omit, pick } from 'my-lodash'; // 라이브러리처럼 호출
 
 
 // groupBy 테스트 코드-----------------------------
@@ -100,19 +100,51 @@ import { groupBy, debounce, get, head, compact, omit } from 'my-lodash'; // 라�
 // console.log(validUsers);
 
 // omit 함수 테스트 코드-----------------------------
-const user = {
-  id: 1,
-  name: 'Alice',
-  age: 25,
-  email: 'alice@example.com'
+// const user = {
+//   id: 1,
+//   name: 'Alice',
+//   age: 25,
+//   email: 'alice@example.com'
+// };
+
+// // 1. 정상 작동 테스트
+// const userWithoutSensitiveInfo = omit(user, ['id', 'email']);
+
+// console.log('--- omit 테스트 ---');
+// console.log('원본 유저:', user);
+// console.log('정제된 유저:', userWithoutSensitiveInfo); // { name: 'Alice', age: 25 }
+
+// // 2. 타입 체크 포인트
+// // userWithoutSensitiveInfo.id; // <- 이 코드의 주석을 풀었을 때 에러가 나야 성공입니다!
+
+// pick 함수 테스트 코드-----------------------------
+const smartphone = {
+  brand: 'Apple',
+  model: 'iPhone 15',
+  price: 1250000,
+  stock: 100,
+  color: 'Black'
 };
 
-// 1. 정상 작동 테스트
-const userWithoutSensitiveInfo = omit(user, ['id', 'email']);
+console.log('--- pick 테스트 시작 ---');
 
-console.log('--- omit 테스트 ---');
-console.log('원본 유저:', user);
-console.log('정제된 유저:', userWithoutSensitiveInfo); // { name: 'Alice', age: 25 }
+// 1. 특정 속성만 골라내기
+const simpleInfo = pick(smartphone, ['model', 'price']);
 
-// 2. 타입 체크 포인트
-// userWithoutSensitiveInfo.id; // <- 이 코드의 주석을 풀었을 때 에러가 나야 성공입니다!
+/**
+ * [타입 체크 포인트]
+ * simpleInfo에 마우스를 올렸을 때 
+ * { model: string; price: number; } 로 정확히 추론되는지 확인하세요.
+ */
+console.log('원본 기기:', smartphone);
+console.log('골라낸 정보:', simpleInfo); // { model: 'iPhone 15', price: 1250000 }
+
+
+// 2. 존재하지 않는 키 입력 시 에러 확인 (주석 해제 후 확인)
+// const errorCase = pick(smartphone, ['weight']); 
+// -> Argument of type '"weight"' is not assignable to ... 에러 발생!
+
+
+// 3. 골라내지 않은 속성에 접근 시 에러 확인
+// console.log(simpleInfo.brand); 
+// -> Property 'brand' does not exist on type '{ model: string; price: number; }' 에러 발생!
