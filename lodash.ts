@@ -25,7 +25,13 @@ export function last<T>(array: T[]): T | undefined {
  * 배열의 첫 번째 요소를 제외한 나머지 요소들로 구성된 새 배열을 반환합니다.
  */
 export function tail<T>(array: T[]): T[] {
-  return array.length > 0 ? array.slice(1) : [];
+  // return array.length > 0 ? array.slice(1) : [];
+  if(array.length > 0){
+    return array.slice(1);
+  } else {
+    console.log('빈 배열입니다');
+    return [];
+  }
 }
 
 /**
@@ -34,6 +40,19 @@ export function tail<T>(array: T[]): T[] {
  */
 export function initial<T>(array: T[]): T[] {
   return array.length > 0 ? array.slice(0, -1) : [];
+}
+
+/**
+ * nth 구현
+ * 배열의 n번째 인덱스에 있는 요소를 반환합니다.
+ */
+export function nth<T>(array: T[], n: number): T | undefined {
+  if(n >= 0){
+    return n < array.length ? array[n] : undefined;
+  } else {
+    const index = array.length + n;
+    return index >= 0 ? array[index] : undefined;
+  }
 }
 
 /**
