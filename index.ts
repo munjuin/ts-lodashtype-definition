@@ -101,23 +101,23 @@ import { groupBy, debounce, get, head, compact, omit, pick, last, tail, initial,
 // console.log(마지막요소제외);
 
 // nth 함수 테스트 코드-----------------------------
-const 알파벳들: string[] = ['a', 'b', 'c', 'd', 'e'];
-const 두번째요소 = nth(알파벳들, -2);
-console.log(두번째요소);
+// const 알파벳들: string[] = ['a', 'b', 'c', 'd', 'e'];
+// const 두번째요소 = nth(알파벳들, -2);
+// console.log(두번째요소);
 
 // compact 함수 테스트 코드-----------------------------
-// const mixedList = [0, 1, 'apple', '', false, true, null, undefined, NaN];
-// const cleanedList = compact(mixedList);
-// console.log(cleanedList);
+const mixedList = [0, 1, 'apple', '', false, true, null, undefined, NaN];
+const cleanedList = compact(mixedList);
+console.log(cleanedList);
 
-// const users = [
-//   { id: 1, name: 'Alice' },
-//   null,
-//   { id: 2, name: 'Bob' },
-//   undefined
-// ];
-// const validUsers = compact(users);
-// console.log(validUsers);
+const users = [
+  { id: 1, name: 'Alice' },
+  null,
+  { id: 2, name: 'Bob' },
+  undefined
+];
+const validUsers = compact(users);
+console.log(validUsers);
 
 // omit 함수 테스트 코드-----------------------------
 // const user = {
