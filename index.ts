@@ -91,9 +91,9 @@ import { groupBy, debounce, get, head, compact, omit, pick, last, tail } from 'm
 // console.log(마지막요소);
 
 // tail 함수 테스트 코드-----------------------------
-const 배열: number[] = [];
-const 꼬리요소들 = tail(배열);
-console.log(꼬리요소들);
+// const 배열: number[] = [];
+// const 꼬리요소들 = tail(배열);
+// console.log(꼬리요소들);
 
 // compact 함수 테스트 코드-----------------------------
 // const mixedList = [0, 1, 'apple', '', false, true, null, undefined, NaN];

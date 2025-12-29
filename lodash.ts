@@ -29,6 +29,14 @@ export function tail<T>(array: T[]): T[] {
 }
 
 /**
+ * initial 구현
+ * 배열의 마지막 요소를 제외한 나머지 요소들로 구성된 새 배열을 반환합니다.
+ */
+export function initial<T>(array: T[]): T[] {
+  return array.length > 0 ? array.slice(0, -1) : [];
+}
+
+/**
  * compact 구현
  * 배열에서 falsy 값(null, 0, "", undefined 등)을 제거합니다.
  * Type Predicate(item is T)를 사용하여 타입을 좁힙니다.
