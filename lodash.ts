@@ -1,5 +1,81 @@
 /**
- * groupBy 설계 및 구현
+ * ==========================================
+ * [Level 1: 기초] 배열 및 기본 제네릭 활용
+ * ==========================================
+ */
+
+/**
+ * head 구현
+ * 배열의 첫 번째 요소를 반환합니다. 빈 배열이면 undefined를 반환합니다.
+ */
+export function head<T>(array: T[]): T | undefined {
+  return array.length > 0 ? array[0] : undefined;
+}
+
+/**
+ * last 구현
+ * 배열의 마지막 요소를 반환합니다. 빈 배열이면 undefined를 반환합니다.
+ */
+export function last<T>(array: T[]): T | undefined {
+  return array.length > 0 ? array[array.length - 1] : undefined;
+}
+
+/**
+ * compact 구현
+ * 배열에서 falsy 값(null, 0, "", undefined 등)을 제거합니다.
+ * Type Predicate(item is T)를 사용하여 타입을 좁힙니다.
+ */
+export function compact<T>(array: (T | null | undefined | false | 0 | '')[]): T[] {
+  return array.filter(
+    (item): item is T => Boolean(item)
+  );
+}
+
+/**
+ * ==========================================
+ * [Level 2: 중급] 객체 변형 및 키 매핑
+ * ==========================================
+ */
+
+/**
+ * omit 구현
+ * 객체에서 특정 키들을 제외한 새로운 객체를 반환합니다.
+ */
+export function omit<T extends object, K extends keyof T>(
+  obj: T,
+  keys: K[]
+): Omit<T, K> {
+  const result = { ...obj } as any;
+  for (const key of keys) {
+    delete result[key];
+  }
+  return result;
+}
+
+/**
+ * pick 구현
+ * 객체에서 지정된 키들만 선택하여 새로운 객체를 반환합니다.
+ */
+export function pick<T extends object, K extends keyof T>(
+  obj: T,
+  keys: K[]
+): { [P in K]: T[P] } {
+  const result = {} as { [P in K]: T[P] };
+  keys.forEach((key) => {
+    (result as any)[key] = obj[key];
+  });
+  return result;
+}
+
+/**
+ * ==========================================
+ * [Level 3: 상급] 함수 오버로딩 및 복합 제네릭
+ * ==========================================
+ */
+
+/**
+ * groupBy 구현
+ * 콜백 함수 또는 객체의 키를 기준으로 데이터를 그룹화합니다.
  */
 export function groupBy<T>(
   collection: T[],
@@ -23,37 +99,35 @@ export function groupBy(collection: any[], iteratee: any): any {
 }
 
 /**
- * debounce 설계 및 구현
- * * 1. <F extends (...args: any[]) => any>: 
- * - F라는 변수에 "원본 함수의 모든 정보(인자 타입, 개수, 리턴 타입)"를 통째로 저장합니다.
- * * 2. 리턴 타입 F & { cancel(): void; flush(): void }:
- * - 결과물은 원본 함수(F)의 모습이면서 동시에 두 개의 메서드를 가진 '하이브리드' 타입입니다.
+ * ==========================================
+ * [Level 4: 고수] 함수 시그니처 보존 및 인터섹션
+ * ==========================================
  */
 
+/**
+ * debounce 구현
+ * 원본 함수의 타입 정보를 보존하면서 cancel/flush 메서드를 추가한 하이브리드 타입을 반환합니다.
+ */
 export function debounce<F extends (...args: any[]) => any>(
   func: F,
   wait: number
 ): F & { cancel(): void; flush(): void };
 
-// 실제 일하는 알맹이 (Implementation)
 export function debounce(func: (...args: any[]) => any, wait: number): any {
   let timeoutId: any = null;
   let lastArgs: any[] = [];
 
-  // 원본 함수의 인자를 그대로 받아내는 래퍼 함수
   const debounced = function (this: any, ...args: any[]) {
     lastArgs = args;
     if (timeoutId !== null) {
       clearTimeout(timeoutId);
     }
-
     timeoutId = setTimeout(() => {
       func.apply(this, lastArgs);
       timeoutId = null;
     }, wait);
   };
 
-  // 취소 기능 추가
   debounced.cancel = () => {
     if (timeoutId !== null) {
       clearTimeout(timeoutId);
@@ -61,7 +135,6 @@ export function debounce(func: (...args: any[]) => any, wait: number): any {
     }
   };
 
-  // 즉시 실행 기능 추가
   debounced.flush = () => {
     if (timeoutId !== null) {
       clearTimeout(timeoutId);
@@ -72,73 +145,36 @@ export function debounce(func: (...args: any[]) => any, wait: number): any {
 
   return debounced;
 }
+
 /**
- * get 함수를 위한 재귀적 경로 타입 설계
+ * ==========================================
+ * [Level 5: 전설] 재귀적 템플릿 리터럴 및 infer
+ * ==========================================
  */
 
-// 1. 문자열 경로를 해석해서 타입을 찾아내는 마법의 타입 (재귀)
+/**
+ * get 구현용 재귀 타입
+ */
 type GetType<T, P extends string> = 
-  P extends `${infer Left}.${infer Right}` // 1단계: 'a.b.c'를 'a'와 'b.c'로 쪼갭니다.
-    ? Left extends keyof T                  // 2단계: 'a'가 객체 T의 키인지 확인합니다.
-      ? GetType<T[Left], Right>             // 3단계: 맞다면 'b.c'를 가지고 더 깊이 들어갑니다 (재귀).
-      : any                                 // 키가 없으면 any를 반환합니다.
-    : P extends keyof T                     // 쪼갤 게 없으면(마지막 단계), 해당 키가 있는지 확인합니다.
-      ? T[P]                                // 있으면 그 타입을 반환!
-      : any;                                // 없으면 any.
+  P extends `${infer Left}.${infer Right}`
+    ? Left extends keyof T
+      ? GetType<T[Left], Right>
+      : any
+    : P extends keyof T
+      ? T[P]
+      : any;
 
-// 2. get 함수 설계 (오버로딩 생략하고 하나로 합친 버전)
+/**
+ * get 구현
+ * 점('.')으로 구분된 경로를 통해 객체의 깊은 곳에 있는 값을 안전하게 가져옵니다.
+ */
 export function get<T extends object, P extends string>(
   obj: T,
   path: P
 ): GetType<T, P>;
 
-// 3. get 함수 구현 (알맹이)
 export function get(obj: any, path: string): any {
-  // 'a.b.c'를 ['a', 'b', 'c'] 배열로 바꾼 뒤 하나씩 타고 들어갑니다.
   return path.split('.').reduce((acc, key) => {
     return acc && acc[key] !== undefined ? acc[key] : undefined;
   }, obj);
-}
-
-// head 함수 설계 및 구현
-export function head<T>(array: T[]): T | undefined {
-  return array.length > 0 ? array[0] : undefined;
-}
-
-// compact 함수 설계 및 구현
-export function compact<T>(array: (T | null | undefined | false | 0 | '')[]): T[] {
-  return array.filter(
-    (item): item is T => Boolean(item)
-  )
-}
-
-// omit 함수 걸계 및 구현
-export function omit<T extends object, K extends keyof T>(
-  obj: T,
-  keys: K[]
-): Omit<T, K> {
-  const result = { ...obj } as any;
-  for (const key of keys){
-    delete result[key];
-  }
-  return result;
-}
-
-// pick 함수 설계 및 구현
-export function pick<T extends object, K extends keyof T>(
-  obj: T,
-  keys: K[]
-): { [P in K]: T[P] } {
-  // 1. 결과를 담을 빈 객체 생성
-  // 타입 시스템을 만족시키기 위해 'as any'를 사용하거나 
-  // 'as { [P in K]: T[P] }'로 단언합니다.
-  const result = {} as { [P in K]: T[P] };
-
-  // 2. keys 배열을 순회하며 값 복사
-  keys.forEach((key) => {
-    // result의 타입이 엄격하므로 인덱스 접근을 위해 잠시 any 처리를 할 수 있습니다.
-    (result as any)[key] = obj[key];
-  });
-
-  return result;
 }

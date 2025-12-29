@@ -1,5 +1,5 @@
 // index.ts
-import { groupBy, debounce, get, head, compact, omit, pick } from 'my-lodash'; // 라이브러리처럼 호출
+import { groupBy, debounce, get, head, compact, omit, pick, last } from 'my-lodash'; // 라이브러리처럼 호출
 
 
 // groupBy 테스트 코드-----------------------------
@@ -81,9 +81,15 @@ import { groupBy, debounce, get, head, compact, omit, pick } from 'my-lodash'; /
 // console.log('없는 경로:', unknown);
 
 // head 함수 테스트 코드-----------------------------
-// const numbers: number[] = [];// 타입추론 때문에 오류가 생김 
+// const numbers: string[] = [];// 타입추론 때문에 오류가 생김 
 // const firstNumber = head(numbers);
 // console.log(firstNumber);
+
+//last 함수 테스트 코드
+const 변수: string[] = ['a', 'b', 'c'];
+const 마지막요소 = last(변수);
+console.log(마지막요소);
+
 
 // compact 함수 테스트 코드-----------------------------
 // const mixedList = [0, 1, 'apple', '', false, true, null, undefined, NaN];
@@ -118,33 +124,33 @@ import { groupBy, debounce, get, head, compact, omit, pick } from 'my-lodash'; /
 // // userWithoutSensitiveInfo.id; // <- 이 코드의 주석을 풀었을 때 에러가 나야 성공입니다!
 
 // pick 함수 테스트 코드-----------------------------
-const smartphone = {
-  brand: 'Apple',
-  model: 'iPhone 15',
-  price: 1250000,
-  stock: 100,
-  color: 'Black'
-};
+// const smartphone = {
+//   brand: 'Apple',
+//   model: 'iPhone 15',
+//   price: 1250000,
+//   stock: 100,
+//   color: 'Black'
+// };
 
-console.log('--- pick 테스트 시작 ---');
+// console.log('--- pick 테스트 시작 ---');
 
-// 1. 특정 속성만 골라내기
-const simpleInfo = pick(smartphone, ['model', 'price']);
+// // 1. 특정 속성만 골라내기
+// const simpleInfo = pick(smartphone, ['model', 'price']);
 
-/**
- * [타입 체크 포인트]
- * simpleInfo에 마우스를 올렸을 때 
- * { model: string; price: number; } 로 정확히 추론되는지 확인하세요.
- */
-console.log('원본 기기:', smartphone);
-console.log('골라낸 정보:', simpleInfo); // { model: 'iPhone 15', price: 1250000 }
-
-
-// 2. 존재하지 않는 키 입력 시 에러 확인 (주석 해제 후 확인)
-// const errorCase = pick(smartphone, ['weight']); 
-// -> Argument of type '"weight"' is not assignable to ... 에러 발생!
+// /**
+//  * [타입 체크 포인트]
+//  * simpleInfo에 마우스를 올렸을 때 
+//  * { model: string; price: number; } 로 정확히 추론되는지 확인하세요.
+//  */
+// console.log('원본 기기:', smartphone);
+// console.log('골라낸 정보:', simpleInfo); // { model: 'iPhone 15', price: 1250000 }
 
 
-// 3. 골라내지 않은 속성에 접근 시 에러 확인
-// console.log(simpleInfo.brand); 
-// -> Property 'brand' does not exist on type '{ model: string; price: number; }' 에러 발생!
+// // 2. 존재하지 않는 키 입력 시 에러 확인 (주석 해제 후 확인)
+// // const errorCase = pick(smartphone, ['weight']); 
+// // -> Argument of type '"weight"' is not assignable to ... 에러 발생!
+
+
+// // 3. 골라내지 않은 속성에 접근 시 에러 확인
+// // console.log(simpleInfo.brand); 
+// // -> Property 'brand' does not exist on type '{ model: string; price: number; }' 에러 발생!
