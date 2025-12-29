@@ -1,5 +1,5 @@
 // index.ts
-import { groupBy, debounce, get, head, compact, omit, pick, last } from 'my-lodash'; // 라이브러리처럼 호출
+import { groupBy, debounce, get, head, compact, omit, pick, last, tail } from 'my-lodash'; // 라이브러리처럼 호출
 
 
 // groupBy 테스트 코드-----------------------------
@@ -85,11 +85,15 @@ import { groupBy, debounce, get, head, compact, omit, pick, last } from 'my-loda
 // const firstNumber = head(numbers);
 // console.log(firstNumber);
 
-//last 함수 테스트 코드
-const 변수: string[] = ['a', 'b', 'c'];
-const 마지막요소 = last(변수);
-console.log(마지막요소);
+// last 함수 테스트 코드-----------------------------
+// const 변수: string[] = ['a', 'b', 'c'];
+// const 마지막요소 = last(변수);
+// console.log(마지막요소);
 
+// tail 함수 테스트 코드-----------------------------
+const 배열: number[] = [];
+const 꼬리요소들 = tail(배열);
+console.log(꼬리요소들);
 
 // compact 함수 테스트 코드-----------------------------
 // const mixedList = [0, 1, 'apple', '', false, true, null, undefined, NaN];
