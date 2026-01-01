@@ -1,5 +1,5 @@
 // index.ts
-import { groupBy, debounce, get, head, compact, omit, pick, last, tail, initial, nth } from 'my-lodash'; // 라이브러리처럼 호출
+import { groupBy, debounce, get, head, compact, omit, pick, last, tail, initial, nth, mapValues } from 'my-lodash'; // 라이브러리처럼 호출
 
 
 // groupBy 테스트 코드-----------------------------
@@ -106,18 +106,18 @@ import { groupBy, debounce, get, head, compact, omit, pick, last, tail, initial,
 // console.log(두번째요소);
 
 // compact 함수 테스트 코드-----------------------------
-const mixedList = [0, 1, 'apple', '', false, true, null, undefined, NaN];
-const cleanedList = compact(mixedList);
-console.log(cleanedList);
+// const mixedList = [0, 1, 'apple', '', false, true, null, undefined, NaN];
+// const cleanedList = compact(mixedList);
+// console.log(cleanedList);
 
-const users = [
-  { id: 1, name: 'Alice' },
-  null,
-  { id: 2, name: 'Bob' },
-  undefined
-];
-const validUsers = compact(users);
-console.log(validUsers);
+// const users = [
+//   { id: 1, name: 'Alice' },
+//   null,
+//   { id: 2, name: 'Bob' },
+//   undefined
+// ];
+// const validUsers = compact(users);
+// console.log(validUsers);
 
 // omit 함수 테스트 코드-----------------------------
 // const user = {
@@ -134,8 +134,8 @@ console.log(validUsers);
 // console.log('원본 유저:', user);
 // console.log('정제된 유저:', userWithoutSensitiveInfo); // { name: 'Alice', age: 25 }
 
-// // 2. 타입 체크 포인트
-// // userWithoutSensitiveInfo.id; // <- 이 코드의 주석을 풀었을 때 에러가 나야 성공입니다!
+// 2. 타입 체크 포인트
+// userWithoutSensitiveInfo.id; // <- 이 코드의 주석을 풀었을 때 에러가 나야 성공입니다!
 
 // pick 함수 테스트 코드-----------------------------
 // const smartphone = {
@@ -168,3 +168,36 @@ console.log(validUsers);
 // // 3. 골라내지 않은 속성에 접근 시 에러 확인
 // // console.log(simpleInfo.brand); 
 // // -> Property 'brand' does not exist on type '{ model: string; price: number; }' 에러 발생!
+
+// mapValues 함수 테스트 코드-----------------------------
+// --- 테스트 시나리오 1: 숫자 가격을 '원'이 붙은 문자열로 변환 ---
+const inventory = {
+  apple: 1000,
+  banana: 1500,
+  orange: 2000
+};
+
+// 원본: { apple: number, banana: number, orange: number }
+// 결과 기대: { apple: string, banana: string, orange: string }
+const priceLabels = mapValues(inventory, (price) => {
+  return `${price.toLocaleString()}원`;
+});
+
+console.log('--- 시나리오 1 결과 ---');
+console.log(priceLabels); 
+// 출력: { apple: "1,000원", banana: "1,500원", orange: "2,000원" }
+
+
+// --- 테스트 시나리오 2: 사용자 객체에서 이름만 추출하기 ---
+const users = {
+  user_01: { name: 'Alice', age: 25, role: 'admin' },
+  user_02: { name: 'Bob', age: 30, role: 'editor' }
+};
+
+// 원본: 각 키의 값이 { name, age, role } 객체임
+// 결과 기대: 각 키의 값이 string(이름)이 됨
+const userNames = mapValues(users, (user) => user.name);
+
+console.log('--- 시나리오 2 결과 ---');
+console.log(userNames);
+// 출력: { user_01: "Alice", user_02: "Bob" }
