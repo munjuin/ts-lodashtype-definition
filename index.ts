@@ -1,5 +1,5 @@
 // index.ts
-import { groupBy, debounce, get, head, compact, omit, pick, last, tail, initial, nth, mapValues } from 'my-lodash'; // 라이브러리처럼 호출
+import { groupBy, debounce, get, head, compact, omit, pick, last, tail, initial, nth, mapValues, mapKeys } from 'my-lodash'; // 라이브러리처럼 호출
 
 
 // groupBy 테스트 코드-----------------------------
@@ -159,45 +159,57 @@ import { groupBy, debounce, get, head, compact, omit, pick, last, tail, initial,
 // console.log('원본 기기:', smartphone);
 // console.log('골라낸 정보:', simpleInfo); // { model: 'iPhone 15', price: 1250000 }
 
-
 // // 2. 존재하지 않는 키 입력 시 에러 확인 (주석 해제 후 확인)
-// // const errorCase = pick(smartphone, ['weight']); 
-// // -> Argument of type '"weight"' is not assignable to ... 에러 발생!
+// const errorCase = pick(smartphone, ['weight']); 
+// -> Argument of type '"weight"' is not assignable to ... 에러 발생!
 
 
 // // 3. 골라내지 않은 속성에 접근 시 에러 확인
-// // console.log(simpleInfo.brand); 
-// // -> Property 'brand' does not exist on type '{ model: string; price: number; }' 에러 발생!
+// console.log(simpleInfo.brand); 
+// -> Property 'brand' does not exist on type '{ model: string; price: number; }' 에러 발생!
 
 // mapValues 함수 테스트 코드-----------------------------
 // --- 테스트 시나리오 1: 숫자 가격을 '원'이 붙은 문자열로 변환 ---
-const inventory = {
-  apple: 1000,
-  banana: 1500,
-  orange: 2000
+// const inventory = {
+//   apple: 1000,
+//   banana: 1500,
+//   orange: 2000
+// };
+
+// // 원본: { apple: number, banana: number, orange: number }
+// // 결과 기대: { apple: string, banana: string, orange: string }
+// const priceLabels = mapValues(inventory, (price) => {
+//   return `${price.toLocaleString()}원`;
+// });
+
+// console.log('--- 시나리오 1 결과 ---');
+// console.log(priceLabels); 
+// // 출력: { apple: "1,000원", banana: "1,500원", orange: "2,000원" }
+
+
+// // --- 테스트 시나리오 2: 사용자 객체에서 이름만 추출하기 ---
+// const users = {
+//   user_01: { name: 'Alice', age: 25, role: 'admin' },
+//   user_02: { name: 'Bob', age: 30, role: 'editor' }
+// };
+
+// // 원본: 각 키의 값이 { name, age, role } 객체임
+// // 결과 기대: 각 키의 값이 string(이름)이 됨
+// const userNames = mapValues(users, (user) => user.name);
+
+// console.log('--- 시나리오 2 결과 ---');
+// console.log(userNames);
+// // 출력: { user_01: "Alice", user_02: "Bob" }
+
+// mapKeys 함수 테스트 코드-----------------------------
+const user = {
+  id: 1,
+  userName: "gemini"
 };
 
-// 원본: { apple: number, banana: number, orange: number }
-// 결과 기대: { apple: string, banana: string, orange: string }
-const priceLabels = mapValues(inventory, (price) => {
-  return `${price.toLocaleString()}원`;
-});
+// 모든 키를 대문자로 바꾸는 테스트
+const upperUser = mapKeys(user, (value, key) => String(key).toUpperCase());
 
-console.log('--- 시나리오 1 결과 ---');
-console.log(priceLabels); 
-// 출력: { apple: "1,000원", banana: "1,500원", orange: "2,000원" }
+console.log(upperUser); 
+// 결과: { ID: 1, USERNAME: "gemini" }
 
-
-// --- 테스트 시나리오 2: 사용자 객체에서 이름만 추출하기 ---
-const users = {
-  user_01: { name: 'Alice', age: 25, role: 'admin' },
-  user_02: { name: 'Bob', age: 30, role: 'editor' }
-};
-
-// 원본: 각 키의 값이 { name, age, role } 객체임
-// 결과 기대: 각 키의 값이 string(이름)이 됨
-const userNames = mapValues(users, (user) => user.name);
-
-console.log('--- 시나리오 2 결과 ---');
-console.log(userNames);
-// 출력: { user_01: "Alice", user_02: "Bob" }
