@@ -120,19 +120,19 @@ import { groupBy, debounce, get, head, compact, omit, pick, last, tail, initial,
 // console.log(validUsers);
 
 // omit 함수 테스트 코드-----------------------------
-// const user = {
-//   id: 1,
-//   name: 'Alice',
-//   age: 25,
-//   email: 'alice@example.com'
-// };
+const user = {
+  id: 1,
+  name: 'Alice',
+  age: 25,
+  email: 'alice@example.com'
+};
 
-// // 1. 정상 작동 테스트
-// const userWithoutSensitiveInfo = omit(user, ['id', 'email']);
+// 1. 정상 작동 테스트
+const userWithoutSensitiveInfo = omit(user, ['id', 'email']);
 
-// console.log('--- omit 테스트 ---');
-// console.log('원본 유저:', user);
-// console.log('정제된 유저:', userWithoutSensitiveInfo); // { name: 'Alice', age: 25 }
+console.log('--- omit 테스트 ---');
+console.log('원본 유저:', user);
+console.log('정제된 유저:', userWithoutSensitiveInfo); // { name: 'Alice', age: 25 }
 
 // 2. 타입 체크 포인트
 // userWithoutSensitiveInfo.id; // <- 이 코드의 주석을 풀었을 때 에러가 나야 성공입니다!
@@ -202,14 +202,14 @@ import { groupBy, debounce, get, head, compact, omit, pick, last, tail, initial,
 // // 출력: { user_01: "Alice", user_02: "Bob" }
 
 // mapKeys 함수 테스트 코드-----------------------------
-const user = {
-  id: 1,
-  userName: "gemini"
-};
+// const user = {
+//   id: 1,
+//   userName: "gemini"
+// };
 
-// 모든 키를 대문자로 바꾸는 테스트
-const upperUser = mapKeys(user, (value, key) => String(key).toUpperCase());
+// // 모든 키를 대문자로 바꾸는 테스트
+// const upperUser = mapKeys(user, (value, key) => String(key).toUpperCase());
 
-console.log(upperUser); 
-// 결과: { ID: 1, USERNAME: "gemini" }
+// console.log(upperUser); 
+// // 결과: { ID: 1, USERNAME: "gemini" }
 
