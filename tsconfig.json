@@ -20,8 +20,8 @@
 
     /* 경로 매핑: 'my-lodash'라는 이름으로 우리의 선언 파일을 찾도록 설정 */
     "paths": {
-      "my-lodash": ["./lodash.ts"]
+      "my-lodash": ["./src/utils/index.ts"]
     }
   },
-  "include": ["src/**/*", "lodash.ts", "index.ts"]
+  "include": ["src/**/*", "index.ts"]
 }
