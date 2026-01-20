@@ -1,5 +1,5 @@
 // index.ts
-import { groupBy, debounce, get, head, compact, omit, pick, last, tail, initial, nth, mapValues, mapKeys } from 'my-lodash'; // 라이브러리처럼 호출
+import { groupBy, debounce, get, head, compact, omit, pick, last, tail, initial, nth, mapValues, mapKeys, uniq } from 'my-lodash'; // 라이브러리처럼 호출
 
 
 // groupBy 테스트 코드-----------------------------
@@ -120,19 +120,19 @@ import { groupBy, debounce, get, head, compact, omit, pick, last, tail, initial,
 // console.log(validUsers);
 
 // omit 함수 테스트 코드-----------------------------
-const user = {
-  id: 1,
-  name: 'Alice',
-  age: 25,
-  email: 'alice@example.com'
-};
+// const user = {
+//   id: 1,
+//   name: 'Alice',
+//   age: 25,
+//   email: 'alice@example.com'
+// };
 
-// 1. 정상 작동 테스트
-const userWithoutSensitiveInfo = omit(user, ['id', 'email']);
+// // 1. 정상 작동 테스트
+// const userWithoutSensitiveInfo = omit(user, ['id', 'email']);
 
-console.log('--- omit 테스트 ---');
-console.log('원본 유저:', user);
-console.log('정제된 유저:', userWithoutSensitiveInfo); // { name: 'Alice', age: 25 }
+// console.log('--- omit 테스트 ---');
+// console.log('원본 유저:', user);
+// console.log('정제된 유저:', userWithoutSensitiveInfo); // { name: 'Alice', age: 25 }
 
 // 2. 타입 체크 포인트
 // userWithoutSensitiveInfo.id; // <- 이 코드의 주석을 풀었을 때 에러가 나야 성공입니다!
@@ -213,3 +213,27 @@ console.log('정제된 유저:', userWithoutSensitiveInfo); // { name: 'Alice', 
 // console.log(upperUser); 
 // // 결과: { ID: 1, USERNAME: "gemini" }
 
+// uniq 함수 테스트 코드-----------------------------
+const nums = [1, 2, 2, 3, 4, 4, 5, 1];
+console.log('1. 숫자 중복 제거:', uniq(nums)); 
+// 예상 결과: [1, 2, 3, 4, 5]
+
+// 2. 문자열 배열
+const words = ['ring', 'necklace', 'ring', 'earring', 'necklace'];
+console.log('2. 문자열 중복 제거:', uniq(words));
+// 예상 결과: ['ring', 'necklace', 'earring']
+
+// 3. 혼합 타입 배열
+const mixed = [1, '1', 1, 'apple', true, true];
+console.log('3. 혼합 타입 중복 제거:', uniq(mixed));
+// 예상 결과: [1, '1', 'apple', true] (숫자 1과 문자 '1'은 다르게 취급됩니다!)
+
+// 4. 🔥 객체 참조 테스트 (주인님이 꼭 보셔야 할 부분)
+const goldRing = { name: 'Gold Ring', price: 50000 };
+const silverRing = { name: 'Silver Ring', price: 30000 };
+
+// goldRing은 같은 변수(주소)를 두 번 넣었고, { name: ... }은 똑같은 내용이지만 새로 만들어서 넣었습니다.
+const jewelryList = [goldRing, goldRing, silverRing, { name: 'Silver Ring', price: 30000 }];
+
+console.log('4. 객체 배열 테스트 (길이 확인):', uniq(jewelryList).length);
+console.log('4-1. 결과 객체들:', uniq(jewelryList));
