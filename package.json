@@ -4,7 +4,8 @@
   "description": "TypeScript Mastery: Lodash Type Design 프로젝트",
   "main": "index.js",
   "scripts": {
-    "test": "npx tsc",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
     "start": "ts-node -r tsconfig-paths/register index.ts"
   },
   "repository": {
@@ -22,6 +23,7 @@
   "devDependencies": {
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.17"
   }
 }
