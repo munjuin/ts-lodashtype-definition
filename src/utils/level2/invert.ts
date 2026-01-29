@@ -37,7 +37,7 @@ export function invert<T extends Record<string, string | number | symbol>>(
 
   Object.entries(object).forEach(([key, value])=>{
     const newKey = String(value);
-    result[newKey] = key as keyof T;
+    result[newKey] = key as keyof T;// 여기서는 동등연산자로 key = value가 되어 따로 value값을 설정하는 코드드 없어도 됨 이게 그 코드임
   });
 
   return result;
